@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { ChakraProvider, extendTheme, Menu, MenuItem, MenuList, MenuButton, ChevronDownIcon } from "@chakra-ui/react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import "antd/dist/antd.css";
 import { MailOutlined } from "@ant-design/icons";
 import { getDefaultProvider, InfuraProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import "./App.css";
-import { Row, Col, Button, List, Tabs, Menu } from "antd";
+import { Row, Col, List, Tabs, Button } from "antd";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
@@ -49,7 +50,16 @@ const localProviderUrlFromEnv = process.env.REACT_APP_PROVIDER ? process.env.REA
 if(DEBUG) console.log("🏠 Connecting to provider:", localProviderUrlFromEnv);
 const localProvider = new JsonRpcProvider(localProviderUrlFromEnv);
 
+// Chakra UI extendTheme colors
+const colors = {
+  brand: {
+    900: "#1a365d",
+    800: "#153e75",
+    700: "#2a69ac",
+  },
+}
 
+const theme = extendTheme({ colors })
 
 function App(props) {
   const [injectedProvider, setInjectedProvider] = useState();
@@ -102,6 +112,7 @@ function App(props) {
   }, [ window.location.pathname ]);
 
   return (
+    <ChakraProvider theme={theme}>
     <div className="App">
 
       {/* ✏️ Edit the header and change the title to your project name */}
@@ -109,22 +120,27 @@ function App(props) {
 
       <BrowserRouter>
 
-        <Menu style={{ textAlign:"center" }} selectedKeys={[route]} mode="horizontal">
-          <Menu.Item key="/">
-            <Link onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
-          </Menu.Item>
-          <Menu.Item key="/tokenize">
-            <Link onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
-          </Menu.Item>
-          <Menu.Item key="/hints">
-            <Link onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
-          </Menu.Item>
-          <Menu.Item key="/exampleui">
-            <Link onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
-          </Menu.Item>
-          <Menu.Item key="/subgraph">
-            <Link onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
-          </Menu.Item>
+        <Menu selectedKeys={[route]}>
+          <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            Actions
+          </MenuButton>
+          <MenuList>
+            <MenuItem key="/">
+              <Link onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
+            </MenuItem>
+            <MenuItem key="/tokenize">
+              <Link onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
+            </MenuItem>
+            <MenuItem key="/hints">
+              <Link onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
+            </MenuItem>
+            <MenuItem key="/exampleui">
+              <Link onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
+            </MenuItem>
+            <MenuItem key="/subgraph">
+              <Link onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
+            </MenuItem>
+          </MenuList>
         </Menu>
 
         <Switch>
@@ -218,8 +234,8 @@ function App(props) {
                onClick={() => {
                  window.open("https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA");
                }}
-               size="large"
                shape="round"
+               size="large"
              >
                <span style={{ marginRight: 8 }} role="img" aria-label="support">
                  💬
@@ -245,6 +261,7 @@ function App(props) {
        </div>
 
     </div>
+    </ChakraProvider>
   );
 }
 

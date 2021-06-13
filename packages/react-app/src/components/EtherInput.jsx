@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input } from "antd";
+import { Input } from "@chakra-ui/react";
 
 /*
 <EtherInput

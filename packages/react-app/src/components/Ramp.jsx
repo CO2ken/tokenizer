@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, Modal, Divider } from "antd";
+import { Modal } from "antd";
+import { Button, Divider } from "@chakra-ui/react";
 import { DollarCircleOutlined } from "@ant-design/icons";
 import { RampInstantSDK } from "@ramp-network/ramp-instant-sdk";
 
@@ -11,8 +12,7 @@ export default function Ramp(props) {
   return (
     <div>
       <Button
-        size="large"
-        shape="round"
+        colorScheme="gray"
         onClick={() => {
           setModalUp("up");
         }}
@@ -39,8 +39,8 @@ export default function Ramp(props) {
         <p>
           <Button
             type={type}
-            size="large"
-            shape="round"
+            colorScheme="gray"
+            mb={3}
             onClick={() => {
               window.open("https://pay.sendwyre.com/purchase?destCurrency=ETH&sourceAmount=25&dest=" + props.address);
             }}
@@ -55,8 +55,8 @@ export default function Ramp(props) {
           {" "}
           <Button
             type={type}
-            size="large"
-            shape="round"
+            colorScheme="gray"
+            mb={3}
             onClick={() => {
               new RampInstantSDK({
                 hostAppName: "scaffold-eth",
@@ -79,8 +79,8 @@ export default function Ramp(props) {
         <p>
           <Button
             type={type}
-            size="large"
-            shape="round"
+            colorScheme="gray"
+            mb={3}
             onClick={() => {
               window.open("https://www.coinbase.com/buy-ethereum");
             }}
@@ -97,8 +97,9 @@ export default function Ramp(props) {
         <p>
           <Button
             type={type}
-            size="large"
-            shape="round"
+            colorScheme="gray"
+            mt={3}
+            mb={3}
             onClick={() => {
               window.open("https://faucet.rinkeby.io/");
             }}
@@ -113,8 +114,8 @@ export default function Ramp(props) {
         <p>
           <Button
             type={type}
-            size="large"
-            shape="round"
+            colorScheme="gray"
+            mb={3}
             onClick={() => {
               window.open("https://faucet.ropsten.be/");
             }}
@@ -129,8 +130,8 @@ export default function Ramp(props) {
         <p>
           <Button
             type={type}
-            size="large"
-            shape="round"
+            colorScheme="gray"
+            mb={3}
             onClick={() => {
               window.open("https://faucet.kovan.network/");
             }}
@@ -145,8 +146,8 @@ export default function Ramp(props) {
         <p>
           <Button
             type={type}
-            size="large"
-            shape="round"
+            colorScheme="gray"
+            mb={3}
             onClick={() => {
               window.open("https://faucet.goerli.mudit.blog/");
             }}

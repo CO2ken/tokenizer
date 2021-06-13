@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "antd";
+import { Button } from "@chakra-ui/react";
 
 export default function GasGauge(props) {
   return (
@@ -7,10 +7,13 @@ export default function GasGauge(props) {
       onClick={() => {
         window.open("https://ethgasstation.info/");
       }}
-      size="large"
-      shape="round"
+      colorScheme="gray"
     >
-      <span style={{ marginRight: 8 }}><span role="img" aria-label="fuelpump">⛽️</span></span>
+      <span style={{ marginRight: 8 }}>
+        <span role="img" aria-label="fuelpump">
+          ⛽️
+        </span>
+      </span>
       {parseInt(props.gasPrice, 10) / 10 ** 9}g
     </Button>
   );
