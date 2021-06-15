@@ -17,7 +17,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 // Select the network you want to deploy to here:
 //
-const defaultNetwork = "localhost";
+const defaultNetwork = "hardhat";
 
 function mnemonic() {
   try {
@@ -39,6 +39,9 @@ module.exports = {
   // (you will need to restart the `yarn run start` dev server after editing the .env)
 
   networks: {
+    hardhat: {
+
+    },
     localhost: {
       url: "http://localhost:8545",
       /*
@@ -79,7 +82,7 @@ module.exports = {
     },
   },
   solidity: {
-    version: "0.6.7",
+    version: "0.8.0",
     settings: {
       optimizer: {
         enabled: true,
