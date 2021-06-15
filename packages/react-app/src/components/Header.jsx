@@ -6,7 +6,7 @@ export default function Header() {
     <a href="https://github.com/austintgriffith/scaffold-eth" target="_blank" rel="noopener noreferrer">
       <PageHeader
         title="🦜 CO2ken"
-        subTitle="Platform to bring carbon credits on chain"
+        // subTitle="Platform to bring carbon credits on chain"
         style={{ cursor: "pointer" }}
       />
     </a>
