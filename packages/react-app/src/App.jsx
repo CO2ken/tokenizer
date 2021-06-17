@@ -7,26 +7,24 @@ import {
   MenuItem, 
   MenuList, 
   MenuButton,
-  ChevronDownIcon, 
   ColorModeProvider,
   CSSReset,
   Stack, 
   Box, 
   Flex,
-  Avatar,
   HStack,
   IconButton,
   useDisclosure,
   useColorModeValue,
-  Link
+  Button
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import "antd/dist/antd.css";
 import { MailOutlined } from "@ant-design/icons";
 import { getDefaultProvider, InfuraProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import "./App.css";
-import { Row, Col, List, Tabs, Button } from "antd";
+import { Row, Col, List, Tabs } from "antd";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
@@ -34,8 +32,7 @@ import { useExchangePrice, useGasPrice, useUserProvider, useContractLoader, useC
 import { Header, Account, Faucet, Ramp, Contract, GasGauge, Address, Balance, Wallet} from "./components";
 import { Transactor } from "./helpers";
 import { parseEther, formatEther } from "@ethersproject/units";
-import { Hints, Tokenize, ExampleUI, Subgraph } from "./views"
-import Toggle from "./Toggle";
+import { Hints, Tokenize, ExampleUI, Subgraph, Landing } from "./views"
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -81,22 +78,6 @@ const colors = {
 }
 
 // const theme = extendTheme({ colors })
-
-const Links = ['Tokenize', 'Hints', 'ExampleUI', 'Subgraph'];
-
-const NavLink = ({ children }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'tokenize', ''}>
-    {children}
-  </Link>
-);
 
 function App(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -156,7 +137,7 @@ function App(props) {
     <CSSReset />
     {/* <Toggle /> */}
     <div className="App">
-
+      <BrowserRouter>
       {/* ✏️ Edit the header and change the title to your project name */}
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
@@ -173,28 +154,15 @@ function App(props) {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-              <Menu selectedKeys={[route]}>
-              <MenuList>
-                <MenuItem key="/">
-                  <Link onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
-                </MenuItem>
-                <MenuItem key="/tokenize">
-                  <Link onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
-                </MenuItem>
-                <MenuItem key="/hints">
-                  <Link onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
-                </MenuItem>
-                <MenuItem key="/exampleui">
-                  <Link onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
-                </MenuItem>
-                <MenuItem key="/subgraph">
-                  <Link onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
-                </MenuItem>
-              </MenuList>
-            </Menu>
+              {/* {Links.map((link, href) => (
+                <NavLink key={link, href}>{link}</NavLink>
+              ))} */}
+              <Link key="/" onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
+              <Link key="/tokenize" onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
+              <Link key="/hints" onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
+              <Link key="/exampleui" onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
+              <Link key="/subgraph" onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
+              
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
@@ -202,7 +170,6 @@ function App(props) {
               <MenuButton
                 as={Button}
                 rounded={'full'}
-                variant={'link'}
                 cursor={'pointer'}>
                 Click me
               </MenuButton>
@@ -243,17 +210,17 @@ function App(props) {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
+              <Link key="/" onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
+              <Link key="/tokenize" onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
+              <Link key="/hints" onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
+              <Link key="/exampleui" onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
+              <Link key="/subgraph" onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
             </Stack>
           </Box>
         ) : null}
       </Box>
 
-      <BrowserRouter>
-
-        <Menu selectedKeys={[route]}>
+        {/* <Menu selectedKeys={[route]}>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
             Actions
           </MenuButton>
@@ -274,7 +241,7 @@ function App(props) {
               <Link onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
             </MenuItem>
           </MenuList>
-        </Menu>
+        </Menu> */}
 
         <Switch>
           <Route exact path="/">
@@ -333,33 +300,40 @@ function App(props) {
             mainnetProvider={mainnetProvider}
             />
           </Route>
+          <Route path="/landing">
+            <Landing />
+          </Route>
         </Switch>
       </BrowserRouter>
 
       {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
        <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
-         <Row align="middle" gutter={[4, 4]}>
-           <Col span={8}>
-             <Ramp price={price} address={address} />
-           </Col>
+          <HStack mb={2}>
+              <Ramp price={price} address={address} />
+              <GasGauge gasPrice={gasPrice} />
+          </HStack>
 
-           <Col span={8} style={{ textAlign: "center", opacity: 0.8 }}>
-             <GasGauge gasPrice={gasPrice} />
-           </Col>
-         </Row>
-
-         <Row align="middle" gutter={[4, 4]}>
-           <Col span={24}>
-             {
-               /*  if the local provider has a signer, let's show the faucet:  */
-               localProvider && localProvider.connection && localProvider.connection.url && localProvider.connection.url.indexOf("localhost")>=0 && !process.env.REACT_APP_PROVIDER && price > 1 ? (
-                 <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider}/>
-               ) : (
-                 ""
-               )
-             }
-           </Col>
-         </Row>
+          <HStack>
+              {
+                /*  if the local provider has a signer, let's show the faucet:  */
+                localProvider && 
+                localProvider.connection && 
+                localProvider.connection.url && 
+                localProvider.connection.url.indexOf("localhost")>=0 && 
+                !process.env.REACT_APP_PROVIDER && price > 1 
+                ? 
+                (
+                  <Faucet 
+                  localProvider={localProvider} 
+                  price={price} 
+                  ensProvider={mainnetProvider}/>
+                ) 
+                : 
+                (
+                  ""
+                )
+              }
+          </HStack>
        </div>
 
     </div>

@@ -7,7 +7,7 @@ export default function GasGauge(props) {
       onClick={() => {
         window.open("https://ethgasstation.info/");
       }}
-      colorScheme="gray"
+      rounded={'full'}
     >
       <span style={{ marginRight: 8 }}>
         <span role="img" aria-label="fuelpump">

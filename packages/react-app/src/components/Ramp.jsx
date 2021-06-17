@@ -12,7 +12,7 @@ export default function Ramp(props) {
   return (
     <div>
       <Button
-        colorScheme="gray"
+        rounded={'full'}
         onClick={() => {
           setModalUp("up");
         }}

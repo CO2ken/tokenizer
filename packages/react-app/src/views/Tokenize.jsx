@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Card, DatePicker, Slider, Switch, Progress, Spin, List } from "antd";
-import { Heading, Text, Flex, Box, Button, Input, Divider, SimpleGrid } from "@chakra-ui/react";
+import { Heading, Text, Flex, Box, Button, Input, Divider, SimpleGrid, HStack, Select, Spacer } from "@chakra-ui/react";
 import { SyncOutlined } from '@ant-design/icons';
 import { Address, AddressInput, Balance } from "../components";
 import { useContractReader, useEventListener, useResolveName } from "../hooks";
@@ -16,8 +15,6 @@ export default function Tokenize({address, mainnetProvider, userProvider, localP
 
   // const ownerBalanceOf = useContractReader(readContracts,"ProjectContract", "ownerBalanceOf", ["0xD2CAc44B9d072A0D6bD39482147d894f13C5CF32"])
   // console.log("🤗 ownerBalanceOf:", ownerBalanceOf)
-  
-  
 
   //📟 Listen for broadcast events
   const projectCreatedEvents = useEventListener(readContracts, "ProjectFactory", "ProjectCreated", localProvider, 1);
@@ -33,126 +30,27 @@ export default function Tokenize({address, mainnetProvider, userProvider, localP
 
   return (
     <div>
-      {/*
-        ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
-      */}
-
-      {/* <Flex flexWrap="wrap" alignItems="center" justifyContent="center" maxW="800px" mt="10"> */}
-      <SimpleGrid columns={3} spacing="10px">
-          <Box p="6" m="4" borderWidth="1px" rounded="lg" flexBasis={['auto', '45%']}>
-            <Heading as="h3" size="lg" mb="2">Tokenizer</Heading>
-            <div>
-              <Input onChange={(e)=>{setNewProject(e.target.value)}} placeholder="Enter project name"/>
-              <Button mt={4} mb={4} colorScheme="teal" onClick={()=>{
-                console.log("createProject", newProject)
-                /* look how you call setPurpose on your contract: */
-                tx( writeContracts.ProjectFactory.createProject(newProject) )
-              }}>
-                Create project
-              </Button>
-            </div>
-
-            <Divider/>
-
-            <Text fontSize="lg" mt={4} mb={4}>Your Projects</Text>
-              <List
-                bordered
-                dataSource={projectMintedEvents}
-                renderItem={(item) => {
-                  return (
-                    <List.Item key={item.blockNumber+"_"+item.sender+"_"+item.purpose}>
-                      <Address
-                          value={item[0]}
-                          ensProvider={mainnetProvider}
-                          fontSize={16}
-                        /> &rarr;
-                      {item[1]}
-                    </List.Item>
-                  )
-                }}
-              />
-
-            <Divider/>
-
-            <Button mt={4} colorScheme="teal" onClick={()=>{
-              /* look how we call setPurpose AND send some value along */
-              tx( writeContracts.YourContract.setPurpose("💵 Paying for this one!",{
-                value: parseEther("0.001")
-              }))
-              /* this will fail until you make the setPurpose function payable */
-            }}>
-              Set Purpose With Value
-            </Button>
-
-            <Button mt={4} mb={4} colorScheme="teal" onClick={()=>{
-              /* you can also just craft a transaction and send it to the tx() transactor */
-              tx({
-                to: writeContracts.YourContract.address,
-                value: parseEther("0.001"),
-                data: writeContracts.YourContract.interface.encodeFunctionData("setPurpose(string)",["🤓 Whoa so 1337!"])
-              });
-              /* this should throw an error about "no fallback nor receive function" until you add it */
-            }}>
-              Another Example
-            </Button>
-          </Box>
-
-          <Box p="6" m="4" borderWidth="1px" rounded="lg" flexBasis={['auto', '45%']}>       
-            {/*
-              📑 Maybe display a list of events?
-                (uncomment the event and emit line in YourContract.sol! )
-            */}
-            <Heading as="h3" size="lg" mb="2">Events</Heading>
-            <div>
-              <List
-                bordered
-                dataSource={projectCreatedEvents}
-                renderItem={(item) => {
-                  return (
-                    <List.Item key={item.blockNumber+"_"+item.sender+"_"+item.purpose}>
-                      <Address
-                          value={item[0]}
-                          ensProvider={mainnetProvider}
-                          fontSize={16}
-                        /> &rarr;
-                      {item[1]}
-                    </List.Item>
-                  )
-                }}
-              />
-            </div>
-          </Box>
-
-          <Box p="6" m="4" borderWidth="1px" rounded="lg" flexBasis={['auto', '45%']}>
-            <Heading as="h3" size="lg" mb="2">Projects</Heading>
-            <div>
-              <List
-                bordered
-                dataSource={projectCreatedEvents}
-                renderItem={(item) => {
-                  return (
-                    <List.Item key={item.blockNumber+"_"+item.sender+"_"+item.purpose}>
-                      <Address
-                          value={item[0]}
-                          ensProvider={mainnetProvider}
-                          fontSize={16}
-                        /> &rarr;
-                      {item[1]}
-                    </List.Item>
-                  )
-                }}
-              />
-            </div>
-          </Box>
-      </SimpleGrid>
-
-      <div style={{ width:600, margin: "auto", marginTop:32, paddingBottom:256 }}>
-
-        <Card>
-          Check out all the <a href="https://github.com/austintgriffith/scaffold-eth/tree/master/packages/react-app/src/components" target="_blank" >📦  components</a>
-        </Card>
-
-      </div>
+      <Flex align="center" justify="center" height="70vh" direction="column">
+        <Box p="6" m="4" borderWidth="1px" rounded="lg" flexBasis={['auto', '45%']} boxShadow="dark-lg">
+          <Heading as="h3" size="lg" mb={4}>Tokenize</Heading>
+          <HStack mb={6}>
+            <Select placeholder="Select Project">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3">Option 3</option>
+            </Select>
+            <Input />
+          </HStack>
+          <Divider />
+          <Flex align="left">
+            <Button variant="link" mb={4} mt={6}>Project not found?</Button>
+          </Flex>
+          <Flex>
+            <Button w="100%" size="lg" mr={2}>Add project</Button>
+            <Button w="100%" size="lg" colorScheme="teal" variant="outline">Tokenize</Button>
+          </Flex>
+        </Box>
+      </Flex>
     </div>
   );
 }

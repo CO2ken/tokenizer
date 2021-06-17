@@ -3,7 +3,7 @@ import { PageHeader } from "antd";
 
 export default function Header() {
   return (
-    <a href="https://github.com/austintgriffith/scaffold-eth" target="_blank" rel="noopener noreferrer">
+    <a href="/landing" rel="noopener noreferrer">
       <PageHeader
         title="🦜 CO2ken"
         // subTitle="Platform to bring carbon credits on chain"
