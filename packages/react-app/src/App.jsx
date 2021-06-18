@@ -32,7 +32,7 @@ import { useExchangePrice, useGasPrice, useUserProvider, useContractLoader, useC
 import { Header, Account, Faucet, Ramp, Contract, GasGauge, Address, Balance, Wallet} from "./components";
 import { Transactor } from "./helpers";
 import { parseEther, formatEther } from "@ethersproject/units";
-import { Hints, Tokenize, ExampleUI, Subgraph, Landing } from "./views"
+import { Tokenize, Landing, AccountPage } from "./views"
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -159,10 +159,7 @@ function App(props) {
               ))} */}
               <Link key="/" onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
               <Link key="/tokenize" onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
-              <Link key="/hints" onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
-              <Link key="/exampleui" onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
-              <Link key="/subgraph" onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
-              
+              <Link key="/account" onClick={()=>{setRoute("/account")}} to="/account">Account</Link>
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
@@ -212,10 +209,8 @@ function App(props) {
             <Stack as={'nav'} spacing={4}>
               <Link key="/" onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
               <Link key="/tokenize" onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
-              <Link key="/hints" onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
-              <Link key="/exampleui" onClick={()=>{setRoute("/exampleui")}} to="/exampleui">ExampleUI</Link>
-              <Link key="/subgraph" onClick={()=>{setRoute("/subgraph")}} to="/subgraph">Subgraph</Link>
-            </Stack>
+              <Link key="/account" onClick={()=>{setRoute("/account")}} to="/account">Account</Link>
+           </Stack>
           </Box>
         ) : null}
       </Box>
@@ -271,37 +266,11 @@ function App(props) {
                 readContracts={readContracts}
               />
           </Route>
-          <Route path="/hints">
-            <Hints
-              address={address}
-              yourLocalBalance={yourLocalBalance}
-              mainnetProvider={mainnetProvider}
-              price={price}
-            />
-          </Route>
-          <Route path="/exampleui">
-            <ExampleUI
-              address={address}
-              userProvider={userProvider}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-            />
-          </Route>
-          <Route path="/subgraph">
-            <Subgraph
-            subgraphUri={props.subgraphUri}
-            tx={tx}
-            writeContracts={writeContracts}
-            mainnetProvider={mainnetProvider}
-            />
-          </Route>
           <Route path="/landing">
             <Landing />
+          </Route>
+          <Route path="/account">
+            <AccountPage />
           </Route>
         </Switch>
       </BrowserRouter>
