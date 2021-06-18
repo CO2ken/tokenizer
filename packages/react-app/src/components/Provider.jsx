@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, Badge } from "antd";
+import { Button } from "@chakra-ui/react"
+import { Badge } from "antd";
 import { usePoller, useBlockNumber } from "eth-hooks";
 // import { WalletOutlined } from '@ant-design/icons';
 

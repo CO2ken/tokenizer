@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
 import { MailOutlined } from "@ant-design/icons";
-import { Row, Col, Button, List, Tabs, Menu, Select, Typography, Table, Input } from "antd";
+import { Row, Col, Button, List, Tabs, Select, Typography, Table, Input } from "antd";
 import { useQuery, gql } from '@apollo/client';
 import { Address } from "../components";
 import GraphiQL from 'graphiql';
