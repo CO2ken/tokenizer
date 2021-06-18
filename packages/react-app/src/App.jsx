@@ -13,7 +13,7 @@ import { Header, Account, Faucet, Ramp, Contract, GasGauge, Address } from "./co
 import { Transactor } from "./helpers";
 import { parseEther, formatEther } from "@ethersproject/units";
 //import Hints from "./Hints";
-import { Hints, Tokenize, ExampleUI, Subgraph } from "./views"
+import { Hints, Tokenize, Project, ExampleUI, Subgraph } from "./views"
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -116,6 +116,9 @@ function App(props) {
           <Menu.Item key="/tokenize">
             <Link onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
           </Menu.Item>
+          <Menu.Item key="/project">
+            <Link onClick={()=>{setRoute("/project")}} to="/project">Project</Link>
+          </Menu.Item>
           <Menu.Item key="/hints">
             <Link onClick={()=>{setRoute("/hints")}} to="/hints">Hints</Link>
           </Menu.Item>
@@ -144,6 +147,19 @@ function App(props) {
           </Route>
           <Route path="/tokenize">
             <Tokenize
+                address={address}
+                userProvider={userProvider}
+                mainnetProvider={mainnetProvider}
+                localProvider={localProvider}
+                yourLocalBalance={yourLocalBalance}
+                price={price}
+                tx={tx}
+                writeContracts={writeContracts}
+                readContracts={readContracts}
+              />
+          </Route>
+          <Route path="/project">
+            <Project
                 address={address}
                 userProvider={userProvider}
                 mainnetProvider={mainnetProvider}
