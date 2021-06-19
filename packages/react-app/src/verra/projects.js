@@ -1,4 +1,4 @@
-export const projects = [
+const projects = [
   {
     "program": "Verified Carbon Standard",
     "resourceIdentifier": "2532",
@@ -900,3 +900,5 @@ export const projects = [
     "createDate": "2021-01-28"
   }
 ]
+
+export default projects;

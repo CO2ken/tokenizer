@@ -32,7 +32,7 @@ import { useExchangePrice, useGasPrice, useUserProvider, useContractLoader, useC
 import { Header, Account, Faucet, Ramp, Contract, GasGauge, Address, Balance, Wallet} from "./components";
 import { Transactor } from "./helpers";
 import { parseEther, formatEther } from "@ethersproject/units";
-import { Tokenize, Landing, AccountPage, Project } from "./views"
+import { Tokenize, Landing, AccountPage, Project, ProjectDetails } from "./views"
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -257,6 +257,7 @@ function App(props) {
           </Route>
           <Route path="/tokenize">
             <Tokenize
+                props
                 address={address}
                 userProvider={userProvider}
                 mainnetProvider={mainnetProvider}
@@ -286,6 +287,9 @@ function App(props) {
           </Route>
           <Route path="/account">
             <AccountPage />
+          </Route>
+          <Route path="/tokenizer/:serialNo">
+            <ProjectDetails />
           </Route>
         </Switch>
       </BrowserRouter>

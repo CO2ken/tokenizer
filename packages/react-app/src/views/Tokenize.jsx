@@ -4,8 +4,9 @@ import { SyncOutlined } from '@ant-design/icons';
 import { Address, AddressInput, Balance } from "../components";
 import { useContractReader, useEventListener, useResolveName } from "../hooks";
 import { parseEther, formatEther } from "@ethersproject/units";
+import { useHistory } from "react-router-dom";
 
-export default function Tokenize({address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) {
+export default function Tokenize({ props, address, mainnetProvider, userProvider, localProvider, yourLocalBalance, price, tx, readContracts, writeContracts }) {
 
   const [newProject, setNewProject] = useState("loading...");
 
@@ -28,6 +29,8 @@ export default function Tokenize({address, mainnetProvider, userProvider, localP
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
   */
 
+  const history = useHistory();
+
   const [serialNo, setSerialNo] = useState('');
   const [projectName, setProjectName] = useState('');
   const [inputKind, setInputKind] = useState(true);
@@ -42,13 +45,13 @@ export default function Tokenize({address, mainnetProvider, userProvider, localP
 
   const handleChangeInputKind = () => setInputKind(!inputKind);
 
-  // function takeToTokenization()
-  // {
-  //   if(inputKind)
-  //     props.history.push('/tokenize/'+serialNo);
-  //   else
-  //     props.history.push('/tokenize/'+projectName);
-  // }
+  function takeToTokenization()
+  {
+    if(inputKind)
+      history.push('/tokenizer/'+serialNo);
+    else
+      history.push('/tokenizer/'+projectName);
+  }
 
   return (
     <div>
@@ -71,7 +74,7 @@ export default function Tokenize({address, mainnetProvider, userProvider, localP
           :
           <Input placeholder="Enter Project Name" onChange={onChangeProjectName} />
           }
-          <Button variant="outline" colorScheme="teal" size="lg" mt={4}>Continue</Button>
+          <Button variant="outline" colorScheme="teal" size="lg" mt={4} onClick={takeToTokenization}>Continue</Button>
         </Box>
       </Flex>
 
