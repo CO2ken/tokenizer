@@ -20,10 +20,10 @@ export default function Project({address, mainnetProvider, userProvider, localPr
 
   //📟 Listen for broadcast events
   const projectCreatedEvents = useEventListener(readContracts, "ProjectFactory", "ProjectCreated", localProvider, 1);
-  console.log("📟 SetPurpose events:",projectCreatedEvents)
+  console.log("📟 ProjectCreated events:",projectCreatedEvents)
 
   const projectMintedEvents = useEventListener(readContracts, "ProjectContract", "ProjectMinted", localProvider, 1);
-  console.log("📟 SetPurpose events:",projectMintedEvents)
+  console.log("📟 ProjectMinted events:",projectMintedEvents)
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
