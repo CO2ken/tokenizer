@@ -6,13 +6,18 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol"; // dev & testing
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+// import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 
-contract ProjectToken is Context, IERC20 {
+
+contract ProjectToken is Context, IERC20, IERC721Receiver {
 
     mapping (address => uint256) private _balances;
 
     mapping (address => mapping (address => uint256)) private _allowances;
+
+    mapping (address => uint256) minterToId;
 
     // Initial supply = 0
     uint256 private _totalSupply = 0;
@@ -41,6 +46,29 @@ contract ProjectToken is Context, IERC20 {
         country = _country;
     }
 
+    /**
+     * @dev function is called with `operator` as `_msgSender()` in a reference implementation by OZ
+     * `from` is the previous owner, not necessarily the same as operator
+     *
+     **/
+    function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
+        
+        external 
+        override 
+        returns (bytes4) 
+        {
+        console.log("logging address operator:", operator);
+        console.log("logging address msg.sender:", msg.sender);
+        require(_checkMatchingAttributes(), "Error: non-matching NFT");
+        minterToId[from] = tokenId;
+        return this.onERC721Received.selector;
+
+    }
+
+    // mock: needs erc721 address, TokenId
+    function _checkMatchingAttributes() internal pure returns (bool) {
+        return true;
+    }
 
     function totalSupply() public view virtual override returns (uint256) {
         return _totalSupply;
