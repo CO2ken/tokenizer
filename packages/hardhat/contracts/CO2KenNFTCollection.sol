@@ -26,9 +26,19 @@ contract CO2KenNFTCollection is ERC721, Ownable {
 
 
     function safeTransferFrom(address from, address to, uint256 tokenId) public virtual override {
-        console.log("DEBUG: called safeTransferFrom()", msg.sender);
+        console.log("DEBUG: called safeTransferFrom(): msg.sender:", msg.sender);
 
         safeTransferFrom(from, to, tokenId, "");
+    }
+
+    function transferFrom(address from, address to, uint256 tokenId) public virtual override {
+        console.log("DEBUG sol: called transferFrom(): msg.sender:", msg.sender);
+        console.log("DEBUG sol:", from, to, tokenId);
+
+
+        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
+
+        _transfer(from, to, tokenId);
     }
 
 

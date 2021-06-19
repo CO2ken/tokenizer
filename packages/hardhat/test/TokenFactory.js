@@ -27,11 +27,11 @@ describe("", () => {
 
         Factory = await ethers.getContractFactory("PTokenFactory");  
         FactoryContract = await Factory.deploy();
-        console.log("Deploying token:")
+        // console.log("Deploying token:")
         await FactoryContract.deployNewToken(name, symbol, vintage, standard, country);
         await FactoryContract.deployNewToken(name, symbol, vintage, standard, country2);
         response = await FactoryContract.getContracts();
-        console.log("logging getContracts()", response);
+        // console.log("logging getContracts()", response);
         // await FactoryContract.test();
 
 
@@ -48,7 +48,27 @@ describe("", () => {
         expect(await NFTcontract.ownerOf(deedId)).to.equal(project.address);
         console.log("Owner of NFT:", await NFTcontract.ownerOf(deedId));
 
-        NFTcontract.safeTransferFrom(project.address, acc1, 1, "");
+        console.log(acc1.address, response[0]);
+
+
+        console.log("balance project:", await NFTcontract.balanceOf(project.address));
+        console.log("balance acc1:", await NFTcontract.balanceOf(acc1.address));
+        console.log("balance acc3:", await NFTcontract.balanceOf(acc3.address));
+
+        await NFTcontract.connect(project).transferFrom(project.address, acc1.address, 1);
+
+        console.log("balance project:", await NFTcontract.balanceOf(project.address));
+        console.log("balance acc1:", await NFTcontract.balanceOf(acc1.address));
+        console.log("balance acc3:", await NFTcontract.balanceOf(acc3.address));
+
+        await NFTcontract.connect(acc1).transferFrom(acc1.address, response[0], 1);
+
+        console.log("balance project:", await NFTcontract.balanceOf(project.address));
+        console.log("balance acc1:", await NFTcontract.balanceOf(acc1.address));
+        console.log("balance pERC20:", await NFTcontract.balanceOf(response[0]));
+
+
+
 
     });
 
