@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: MIT
-// Solidity files have to start with this pragma.
-// It will be used by the Solidity compiler to validate its version.
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol"; // dev & testing
@@ -60,6 +58,7 @@ contract ProjectToken is Context, IERC20, IERC721Receiver {
         console.log("logging address operator:", operator);
         console.log("logging address msg.sender:", msg.sender);
         require(_checkMatchingAttributes(), "Error: non-matching NFT");
+
         minterToId[from] = tokenId;
         return this.onERC721Received.selector;
 

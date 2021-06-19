@@ -1,9 +1,11 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./CO2KenNFTERC20.sol";
+import "hardhat/console.sol"; // dev & testing
+
 
 contract CO2KenNFTCollection is ERC721, Ownable {
     using Counters for Counters.Counter;
@@ -15,13 +17,20 @@ contract CO2KenNFTCollection is ERC721, Ownable {
         string symbol;
         uint256 CO2tons;
         bool approved;
-        CO2KenNFTERC20 ERC20;
     }
 
     mapping (uint256 => NFTData) public nftData;
 
     constructor() ERC721("CO2KenNFTCollection", "CO2KenNFTs") {
     }
+
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) public virtual override {
+        console.log("DEBUG: called safeTransferFrom()", msg.sender);
+
+        safeTransferFrom(from, to, tokenId, "");
+    }
+
 
     function requestMint(
         string memory projectName,
@@ -40,19 +49,5 @@ contract CO2KenNFTCollection is ERC721, Ownable {
         nftData[deedId].CO2tons = CO2tons;
 
         return deedId;
-    }
-
-    function approveMinting(uint256 deedId) public onlyOwner returns (CO2KenNFTERC20) {
-        require(!nftData[deedId].approved, "cannot approve twice");
-        nftData[deedId].ERC20 = new CO2KenNFTERC20(
-            deedId,
-            nftData[deedId].projectName, // "CO2Ken projectName - Vintage ERC20"
-            nftData[deedId].symbol, // "CO2Ken-symbol"
-            nftData[deedId].CO2tons,
-            ownerOf(deedId)
-        );
-        nftData[deedId].approved = true;
-
-        return nftData[deedId].ERC20;
     }
 }

@@ -33,29 +33,29 @@ describe("CO2KenNFTCollection", () => {
         expect(data.approved).to.equal(false);
     })
 
-    it("allows a CO2Ken to approve minting", async () => {
-        await contract.connect(project).requestMint("my offsetting project", "2018", "PRJ", 1000);
-        // TODO for some reason I cannot get the return of requestMint
-        const deedId = 1
+    // it("allows a CO2Ken to approve minting", async () => {
+    //     await contract.connect(project).requestMint("my offsetting project", "2018", "PRJ", 1000);
+    //     // TODO for some reason I cannot get the return of requestMint
+    //     const deedId = 1
 
-        await contract.connect(co2Ken).approveMinting(deedId);
-        // TODO for some reason I cannot get the return of approveMint
+    //     await contract.connect(co2Ken).approveMinting(deedId);
+    //     // TODO for some reason I cannot get the return of approveMint
 
-        const data = await contract.nftData(deedId);
-        expect(data.approved).to.equal(true);
+    //     const data = await contract.nftData(deedId);
+    //     expect(data.approved).to.equal(true);
 
-        const erc20 = await ethers.getContractAt("CO2KenNFTERC20", data.ERC20);
-        expect((await erc20.balanceOf(project.address)).toNumber()).to.equal(1000);
-        expect((await erc20.balanceOf(co2Ken.address)).toNumber()).to.equal(0);
-        expect(await erc20.owner()).to.equal(contract.address);
-    })
+    //     const erc20 = await ethers.getContractAt("CO2KenNFTERC20", data.ERC20);
+    //     expect((await erc20.balanceOf(project.address)).toNumber()).to.equal(1000);
+    //     expect((await erc20.balanceOf(co2Ken.address)).toNumber()).to.equal(0);
+    //     expect(await erc20.owner()).to.equal(contract.address);
+    // })
 
-    it("does not allow someone else to approve the minting", async () => {
-        await contract.connect(project).requestMint("my offsetting project", "2018", "PRJ", 1000);
-        // TODO for some reason I cannot get the return of requestMint
-        const deedId = 1
+    // it("does not allow someone else to approve the minting", async () => {
+    //     await contract.connect(project).requestMint("my offsetting project", "2018", "PRJ", 1000);
+    //     // TODO for some reason I cannot get the return of requestMint
+    //     const deedId = 1
 
-        await expect(contract.connect(project).approveMinting(deedId)).to.eventually.be.rejected
-        await expect(contract.connect(addr2).approveMinting(deedId)).to.eventually.be.rejected
-    })
+    //     await expect(contract.connect(project).approveMinting(deedId)).to.eventually.be.rejected
+    //     await expect(contract.connect(addr2).approveMinting(deedId)).to.eventually.be.rejected
+    // })
 })
