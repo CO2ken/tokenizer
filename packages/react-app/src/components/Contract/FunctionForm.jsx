@@ -3,7 +3,8 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from "react";
 import { BigNumber } from "@ethersproject/bignumber";
-import { Row, Col, Input, Divider, Tooltip, Button } from "antd";
+import { Row, Col, Input, Divider, Tooltip } from "antd";
+import { Button } from "@chakra-ui/react";
 import { Transactor } from "../../helpers";
 import tryToDisplay from "./utils";
 const { utils } = require("ethers");

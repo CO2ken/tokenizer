@@ -1,4 +1,4 @@
-pragma solidity >=0.6.0 <0.7.0;
+pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -9,7 +9,7 @@ import "./IProjectContract.sol";
 contract ProjectFactory is Ownable {
     event ProjectCreated(address sender, string purpose);
 
-    string public projectName = "🛠 Project created";
+    string public projectName = "Project created";
     uint256 public projectId = 0;
 
     Project[] public projects;
