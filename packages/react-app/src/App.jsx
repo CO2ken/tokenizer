@@ -32,7 +32,7 @@ import { useExchangePrice, useGasPrice, useUserProvider, useContractLoader, useC
 import { Header, Account, Faucet, Ramp, Contract, GasGauge, Address, Balance, Wallet} from "./components";
 import { Transactor } from "./helpers";
 import { parseEther, formatEther } from "@ethersproject/units";
-import { Tokenize, Landing, AccountPage } from "./views"
+import { Tokenize, Landing, AccountPage, Project, ProjectDetails } from "./views"
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -159,6 +159,7 @@ function App(props) {
               ))} */}
               <Link key="/" onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
               <Link key="/tokenize" onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
+              <Link key="/project" onClick={()=>{setRoute("/project")}} to="/project">Project</Link>
               <Link key="/account" onClick={()=>{setRoute("/account")}} to="/account">Account</Link>
             </HStack>
           </HStack>
@@ -209,6 +210,7 @@ function App(props) {
             <Stack as={'nav'} spacing={4}>
               <Link key="/" onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
               <Link key="/tokenize" onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
+              <Link key="/project" onClick={()=>{setRoute("/project")}} to="/project">Project</Link>
               <Link key="/account" onClick={()=>{setRoute("/account")}} to="/account">Account</Link>
            </Stack>
           </Box>
@@ -255,6 +257,20 @@ function App(props) {
           </Route>
           <Route path="/tokenize">
             <Tokenize
+                props
+                address={address}
+                userProvider={userProvider}
+                mainnetProvider={mainnetProvider}
+                localProvider={localProvider}
+                yourLocalBalance={yourLocalBalance}
+                price={price}
+                tx={tx}
+                writeContracts={writeContracts}
+                readContracts={readContracts}
+              />
+          </Route>
+          <Route path="/project">
+            <Project
                 address={address}
                 userProvider={userProvider}
                 mainnetProvider={mainnetProvider}
@@ -271,6 +287,9 @@ function App(props) {
           </Route>
           <Route path="/account">
             <AccountPage />
+          </Route>
+          <Route path="/tokenizer/:serialNo">
+            <ProjectDetails />
           </Route>
         </Switch>
       </BrowserRouter>
