@@ -1,5 +1,23 @@
-import React from "react";
 import { Button } from "@chakra-ui/react";
+import React from "react";
+
+// added display of 0 instead of NaN if gas price is not provided
+
+/*
+  ~ What it does? ~
+
+  Displays gas gauge
+
+  ~ How can I use? ~
+
+  <GasGauge
+    gasPrice={gasPrice}
+  />
+
+  ~ Features ~
+
+  - Provide gasPrice={gasPrice} and get current gas gauge
+*/
 
 export default function GasGauge(props) {
   return (
@@ -14,7 +32,7 @@ export default function GasGauge(props) {
           ⛽️
         </span>
       </span>
-      {parseInt(props.gasPrice, 10) / 10 ** 9}g
+      {typeof props.gasPrice === "undefined" ? 0 : parseInt(props.gasPrice, 10) / 10 ** 9}g
     </Button>
   );
 }

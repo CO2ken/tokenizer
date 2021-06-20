@@ -20,11 +20,8 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import "antd/dist/antd.css";
-import { MailOutlined } from "@ant-design/icons";
 import { getDefaultProvider, InfuraProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import "./App.css";
-import { Row, Col, List, Tabs } from "antd";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
@@ -33,6 +30,7 @@ import { Header, Account, Faucet, Ramp, Contract, GasGauge, Address, Balance, Wa
 import { Transactor } from "./helpers";
 import { parseEther, formatEther } from "@ethersproject/units";
 import { Tokenize, Landing, AccountPage, Project, ProjectDetails } from "./views"
+import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS } from "./constants";
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -45,11 +43,18 @@ import { Tokenize, Landing, AccountPage, Project, ProjectDetails } from "./views
 
     You should get your own Infura.io ID and put it in `constants.js`
     (this is your connection to the main Ethereum network for ENS etc.)
-*/
-import { INFURA_ID, ETHERSCAN_KEY } from "./constants";
-const { TabPane } = Tabs;
 
-const DEBUG = true
+
+    🌏 EXTERNAL CONTRACTS:
+    You can also bring in contract artifacts in `constants.js`
+    (and then use the `useExternalContractLoader()` hook!)
+*/
+
+/// 📡 What chain are your contracts deployed to?
+const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+
+// 😬 Sorry for all the console logging
+const DEBUG = true;
 
 // 🔭 block explorer URL
 const blockExplorer = "https://etherscan.io/" // for xdai: "https://blockscout.com/poa/xdai/"
@@ -84,7 +89,7 @@ function App(props) {
 
   const [injectedProvider, setInjectedProvider] = useState();
   /* 💵 this hook will get the price of ETH from 🦄 Uniswap: */
-  const price = useExchangePrice(mainnetProvider); //1 for xdai
+  const price = useExchangePrice(targetNetwork, mainnetProvider);
 
   /* 🔥 this hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice("fast"); //1000000000 for xdai
@@ -157,10 +162,10 @@ function App(props) {
               {/* {Links.map((link, href) => (
                 <NavLink key={link, href}>{link}</NavLink>
               ))} */}
-              <Link key="/" onClick={()=>{setRoute("/")}} to="/">YourContract</Link>
-              <Link key="/tokenize" onClick={()=>{setRoute("/tokenize")}} to="/tokenize">Tokenize</Link>
-              <Link key="/project" onClick={()=>{setRoute("/project")}} to="/project">Project</Link>
-              <Link key="/account" onClick={()=>{setRoute("/account")}} to="/account">Account</Link>
+              <Link key="/" onClick={()=>{setRoute("/")}} to="/">home</Link>
+              <Link key="/tokenize" onClick={()=>{setRoute("/tokenize")}} to="/tokenize">tokenize</Link>
+              {/* <Link key="/project" onClick={()=>{setRoute("/project")}} to="/project">project</Link> */}
+              <Link key="/account" onClick={()=>{setRoute("/account")}} to="/account">account</Link>
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
@@ -242,22 +247,10 @@ function App(props) {
 
         <Switch>
           <Route exact path="/">
-            {/*
-                🎛 this scaffolding is full of commonly used components
-                this <Contract/> component will automatically parse your ABI
-                and give you a form to interact with it locally
-            */}
-            <Contract
-              name="YourContract"
-              signer={userProvider.getSigner()}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-            />
+            <Landing />
           </Route>
           <Route path="/tokenize">
             <Tokenize
-                props
                 address={address}
                 userProvider={userProvider}
                 mainnetProvider={mainnetProvider}
@@ -282,20 +275,27 @@ function App(props) {
                 readContracts={readContracts}
               />
           </Route>
-          <Route path="/landing">
-            <Landing />
-          </Route>
           <Route path="/account">
             <AccountPage />
           </Route>
           <Route path="/tokenizer/:serialNo">
-            <ProjectDetails />
+            <ProjectDetails 
+            address={address}
+            userProvider={userProvider}
+            mainnetProvider={mainnetProvider}
+            localProvider={localProvider}
+            yourLocalBalance={yourLocalBalance}
+            price={price}
+            tx={tx}
+            writeContracts={writeContracts}
+            readContracts={readContracts}
+            />
           </Route>
         </Switch>
       </BrowserRouter>
 
       {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
-       <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
+       <div style={{ position: "fixed", textAlign: "left", right: 0, bottom: 20, padding: 10 }}>
           <HStack mb={2}>
               <Ramp price={price} address={address} />
               <GasGauge gasPrice={gasPrice} />

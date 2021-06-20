@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect, useCallback } from "react";
-import { Row, Col, Divider } from "antd";
+import { Col, Divider, Row } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
 import tryToDisplay from "./utils";
 
-const DisplayVariable = ({ contractFunction, functionInfo, refreshRequired, triggerRefresh}) => {
+const DisplayVariable = ({ contractFunction, functionInfo, refreshRequired, triggerRefresh }) => {
   const [variable, setVariable] = useState("");
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     try {
       const funcResponse = await contractFunction();
       setVariable(funcResponse);
@@ -15,11 +15,11 @@ const DisplayVariable = ({ contractFunction, functionInfo, refreshRequired, trig
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [setVariable, contractFunction, triggerRefresh]);
 
   useEffect(() => {
     refresh();
-  }, [refreshRequired, contractFunction]);
+  }, [refresh, refreshRequired, contractFunction]);
 
   return (
     <div>

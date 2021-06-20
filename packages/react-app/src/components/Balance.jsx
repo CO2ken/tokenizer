@@ -1,39 +1,39 @@
-import React, { useState } from "react";
 import { formatEther } from "@ethersproject/units";
-import { usePoller } from "eth-hooks";
+import React, { useState } from "react";
+import { useBalance } from "../hooks";
 
 /*
+  ~ What it does? ~
+
+  Displays a balance of given address in ether & dollar
+
+  ~ How can I use? ~
 
   <Balance
-    address={selectedAddress}
-    provider={props.provider}
-    dollarMultiplier={props.price}
+    address={address}
+    provider={mainnetProvider}
+    price={price}
   />
 
-*/
+  ~ If you already have the balance as a bignumber ~
+  <Balance
+    balance={balance}
+    price={price}
+  />
 
+  ~ Features ~
+
+  - Provide address={address} and get balance corresponding to given address
+  - Provide provider={mainnetProvider} to access balance on mainnet or any other network (ex. localProvider)
+  - Provide price={price} of ether and get your balance converted to dollars
+*/
 
 export default function Balance(props) {
   const [dollarMode, setDollarMode] = useState(true);
-  const [balance, setBalance] = useState();
 
-  const getBalance = async () => {
-    if (props.address && props.provider) {
-      try {
-        const newBalance = await props.provider.getBalance(props.address);
-        setBalance(newBalance);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
+  // const [listening, setListening] = useState(false);
 
-  usePoller(
-    () => {
-      getBalance();
-    },
-    props.pollTime ? props.pollTime : 1999,
-  );
+  const balance = useBalance(props.provider, props.address);
 
   let floatBalance = parseFloat("0.00");
 
@@ -41,6 +41,9 @@ export default function Balance(props) {
 
   if (typeof props.balance !== "undefined") {
     usingBalance = props.balance;
+  }
+  if (typeof props.value !== "undefined") {
+    usingBalance = props.value;
   }
 
   if (usingBalance) {
@@ -51,8 +54,10 @@ export default function Balance(props) {
 
   let displayBalance = floatBalance.toFixed(4);
 
-  if (props.dollarMultiplier && dollarMode) {
-    displayBalance = "$" + (floatBalance * props.dollarMultiplier).toFixed(2);
+  const price = props.price || props.dollarMultiplier;
+
+  if (price && dollarMode) {
+    displayBalance = "$" + (floatBalance * price).toFixed(2);
   }
 
   return (

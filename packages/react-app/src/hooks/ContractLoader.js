@@ -1,7 +1,29 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
 import { Contract } from "@ethersproject/contracts";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+/*
+  ~ What it does? ~
+
+  Loads your local contracts and gives options to read values from contracts
+  or write transactions into them
+
+  ~ How can I use? ~
+
+  const readContracts = useContractLoader(localProvider) // or
+  const writeContracts = useContractLoader(userProvider)
+
+  ~ Features ~
+
+  - localProvider enables reading values from contracts
+  - userProvider enables writing transactions into contracts
+  - Example of keeping track of "purpose" variable by loading contracts into readContracts
+    and using ContractReader.js hook:
+    const purpose = useContractReader(readContracts,"YourContract", "purpose")
+  - Example of using setPurpose function from our contract and writing transactions by Transactor.js helper:
+    tx( writeContracts.YourContract.setPurpose(newPurpose) )
+*/
 
 const loadContract = (contractName, signer) => {
   const newContract = new Contract(
