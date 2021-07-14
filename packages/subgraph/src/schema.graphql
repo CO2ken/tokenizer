@@ -3,19 +3,12 @@ type Batch @entity {
   minter: Sender!
   owner: Bytes!
   projectId: BigInt
+  tokenId: BigInt
   status: String!
   serialNumber: String
   quantity: BigInt
   createdAt: BigInt
   transactionHash: String
-}
-
-type Purpose @entity {
-  id: ID!
-  sender: Sender!
-  purpose: String!
-  createdAt: BigInt!
-  transactionHash: String!
 }
 
 type Sender @entity {

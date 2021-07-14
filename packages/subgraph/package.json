@@ -5,10 +5,10 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ jamespfarrell/bridge",
-    "create-local": "graph create --node http://localhost:8020/ jamespfarrell/bridge",
-    "remove-local": "graph remove --node http://localhost:8020/ jamespfarrell/bridge",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 jamespfarrell/bridge"
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ TEST/FAIL",
+    "create-local": "graph create --node http://localhost:8020/ TEST/FAI",
+    "remove-local": "graph remove --node http://localhost:8020/ TEST/FAI",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 TEST/FAI"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.18.0",

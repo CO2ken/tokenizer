@@ -21,7 +21,7 @@ describe("", () => {
 
     // ---------------------
     // Create Blockchain Accounts;
-    const [owner, project, enduser] = await ethers.getSigners();
+    const [owner, project, enduser, enduser2] = await ethers.getSigners();
     console.log("\n------ ACCOUNTs --------");
     console.log("Owner:", owner.address);
     console.log("Project:", project.address);
@@ -100,9 +100,19 @@ describe("", () => {
 
     // Flow #2: start with empty batch
     console.log("\nConnect Project Account and mint Batch-NFT via mintBatchWithData(...)");
-    await BatchCollection.connect(enduser).mintEmptyBatch(enduser.address);
+    
     const BatchTokenId2 = 2;
     // User sends the serialnumber to Co2ken
+
+    await BatchCollection.connect(enduser).mintEmptyBatch(enduser.address);
+
+    const filter = {
+      address: BatchCollection.address,
+      fromBlock: 0,
+      toBlock: 100,
+      topics: [BatchCollection.interface.events.BatchMinted.topic]
+    };
+    const logs = await provider.getLogs(filter);
 
     await BatchCollection.connect(owner).updateBatchWithData(
       BatchTokenId2,
@@ -111,7 +121,18 @@ describe("", () => {
       serialNumber,
       quantity2
     );
-    
+
+    await BatchCollection.connect(enduser2).mintEmptyBatch(enduser2.address);
+    const BatchTokenId3 = 3;
+    // User sends the serialnumber to Co2ken
+
+    await expect(BatchCollection.connect(owner).updateBatchWithData(
+      BatchTokenId3,
+      projectId,
+      vintage20,
+      serialNumber,
+      quantity2
+    )).to.be.reverted;
 
     // Test that BatchNFT owner is the project account
     expect(await BatchCollection.ownerOf(BatchTokenId1)).to.equal(project.address);

@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: BatchCollection
-    network: kovan
+    network: localhost
     source:
       address: "{{BatchCollectionAddress}}"
       abi: BatchCollection
-      startBlock: 1
+      startBlock: 26097800
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -20,6 +20,6 @@ dataSources:
         - name: BatchCollection
           file: ./abis/BatchCollection.json
       eventHandlers:
-        - event: BatchMinted(address)
+        - event: BatchMinted(address,uint256)
           handler: handleMintBatch
       file: ./src/mapping.ts
